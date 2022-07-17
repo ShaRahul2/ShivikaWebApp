@@ -11,6 +11,21 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.FormsHeader.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FormsHeader.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FormName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FormName)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.TestingDate)
         </dt>
 
@@ -50,45 +65,6 @@
             @Html.DisplayFor(model => model.VechleNo)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedOn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedOn)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedBy)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ModifiedBy)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ModifiedBy)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ModifiedOn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ModifiedOn)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FormsHeader.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FormsHeader.Title)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.TypeofAggregator.TypeofAggregate)
@@ -99,6 +75,11 @@
         </dd>
 
     </dl>
+</div>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        @Html.ActionLink("Add Grid Record", "Create", "GridHeaders", new { area = "" }, htmlAttributes: new { @class = "btn btn-default" })
+    </div>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

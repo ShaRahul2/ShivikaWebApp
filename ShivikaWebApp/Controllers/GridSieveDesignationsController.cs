@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using ShivikaWebApp.Models;
 
 namespace ShivikaWebApp.Controllers
@@ -13,7 +14,7 @@ namespace ShivikaWebApp.Controllers
     [Authorize]
     public class GridSieveDesignationsController : Controller
     {
-        private ShivikaWebAppEntities db = new ShivikaWebAppEntities();
+        private ShivikaWebAppEntities1 db = new ShivikaWebAppEntities1();
 
         // GET: GridSieveDesignations
         public ActionResult Index()
@@ -49,10 +50,11 @@ namespace ShivikaWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,GridHeaderType,Name,CreatedOn,CreatedBy,ModifiedOn,ModifiedBy")] GridSieveDesignation gridSieveDesignation)
+        public ActionResult Create([Bind(Include = "Id,GridHeaderType,Name")] GridSieveDesignation gridSieveDesignation)
         {
             if (ModelState.IsValid)
             {
+                gridSieveDesignation.CreatedBy = User.Identity.GetUserId();
                 db.GridSieveDesignations.Add(gridSieveDesignation);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -83,10 +85,12 @@ namespace ShivikaWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,GridHeaderType,Name,CreatedOn,CreatedBy,ModifiedOn,ModifiedBy")] GridSieveDesignation gridSieveDesignation)
+        public ActionResult Edit([Bind(Include = "Id,GridHeaderType,Name")] GridSieveDesignation gridSieveDesignation)
         {
             if (ModelState.IsValid)
             {
+                gridSieveDesignation.ModifiedBy = User.Identity.GetUserId();
+                gridSieveDesignation.ModifiedOn = DateTime.Now;
                 db.Entry(gridSieveDesignation).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

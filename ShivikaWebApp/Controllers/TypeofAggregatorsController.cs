@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using ShivikaWebApp.Models;
 
 namespace ShivikaWebApp.Controllers
@@ -13,7 +14,7 @@ namespace ShivikaWebApp.Controllers
     [Authorize]
     public class TypeofAggregatorsController : Controller
     {
-        private ShivikaWebAppEntities db = new ShivikaWebAppEntities();
+        private ShivikaWebAppEntities1 db = new ShivikaWebAppEntities1();
 
         // GET: TypeofAggregators
         public ActionResult Index()
@@ -47,10 +48,11 @@ namespace ShivikaWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TypeofAggregate,CreatedOn,CreatedBy,ModifiedOn,ModifiedBy")] TypeofAggregator typeofAggregator)
+        public ActionResult Create([Bind(Include = "Id,TypeofAggregate")] TypeofAggregator typeofAggregator)
         {
             if (ModelState.IsValid)
             {
+                typeofAggregator.CreatedBy = User.Identity.GetUserId();
                 db.TypeofAggregators.Add(typeofAggregator);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -79,10 +81,12 @@ namespace ShivikaWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,TypeofAggregate,CreatedOn,CreatedBy,ModifiedOn,ModifiedBy")] TypeofAggregator typeofAggregator)
+        public ActionResult Edit([Bind(Include = "Id,TypeofAggregate")] TypeofAggregator typeofAggregator)
         {
             if (ModelState.IsValid)
             {
+                typeofAggregator.ModifiedOn = DateTime.Now;
+                typeofAggregator.ModifiedBy = User.Identity.GetUserId();
                 db.Entry(typeofAggregator).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

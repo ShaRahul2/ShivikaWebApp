@@ -14,7 +14,7 @@ namespace ShivikaWebApp.Controllers
     [Authorize]
     public class FormsFieldsController : Controller
     {
-        private ShivikaWebAppEntities db = new ShivikaWebAppEntities();
+        private ShivikaWebAppEntities1 db = new ShivikaWebAppEntities1();
 
         // GET: FormsFields
         public ActionResult Index()
@@ -51,10 +51,12 @@ namespace ShivikaWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TestingDate,Source,TypeOfAggregate,WeightOfSample,InvoiceNo,VechleNo,FormsHeadersId")] FormsField formsField)
+        public ActionResult Create([Bind(Include = "Id,FormName,TestingDate,Source,TypeOfAggregate,WeightOfSample,InvoiceNo,VechleNo,FormsHeadersId")] FormsField formsField)
         {
             if (ModelState.IsValid)
             {
+                formsField.CreatedOn = DateTime.Now;
+                formsField.CreatedBy = User.Identity.GetUserId();
                 db.FormsFields.Add(formsField);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -87,7 +89,7 @@ namespace ShivikaWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,TestingDate,Source,TypeOfAggregate,WeightOfSample,InvoiceNo,VechleNo,FormsHeadersId")] FormsField formsField)
+        public ActionResult Edit([Bind(Include = "Id,FormName,TestingDate,Source,TypeOfAggregate,WeightOfSample,InvoiceNo,VechleNo,FormsHeadersId,CreatedOn,CreatedBy")] FormsField formsField)
         {
             if (ModelState.IsValid)
             {

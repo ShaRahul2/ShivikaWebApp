@@ -6,12 +6,17 @@
 
 <h2>Index</h2>
 
-<p>@Html.ActionLink("Create Headers", "Create", "FormsHeaders", new { area = "" }, null)</p>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FormsHeader.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FormName)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.TestingDate)
         </th>
@@ -39,9 +44,7 @@
         <th>
             @Html.DisplayNameFor(model => model.ModifiedOn)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FormsHeader.Title)
-        </th>
+
         <th>
             @Html.DisplayNameFor(model => model.TypeofAggregator.TypeofAggregate)
         </th>
@@ -50,6 +53,12 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FormsHeader.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FormName)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.TestingDate)
         </td>
@@ -77,9 +86,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.ModifiedOn)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FormsHeader.Title)
-        </td>
+
         <td>
             @Html.DisplayFor(modelItem => item.TypeofAggregator.TypeofAggregate)
         </td>

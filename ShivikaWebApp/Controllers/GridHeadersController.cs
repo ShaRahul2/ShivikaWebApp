@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using ShivikaWebApp.Models;
 
 namespace ShivikaWebApp.Controllers
@@ -13,7 +14,7 @@ namespace ShivikaWebApp.Controllers
     [Authorize]
     public class GridHeadersController : Controller
     {
-        private ShivikaWebAppEntities db = new ShivikaWebAppEntities();
+        private ShivikaWebAppEntities1 db = new ShivikaWebAppEntities1();
 
         // GET: GridHeaders
         public ActionResult Index()
@@ -40,7 +41,7 @@ namespace ShivikaWebApp.Controllers
         // GET: GridHeaders/Create
         public ActionResult Create()
         {
-            ViewBag.FormType = new SelectList(db.FormsFields, "Id", "Source");
+            ViewBag.FormType = new SelectList(db.FormsFields, "Id", "FormName");
             return View();
         }
 
@@ -49,16 +50,17 @@ namespace ShivikaWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FormType,Name,GridHeaderType,CreatedOn,CreatedBy,ModifiedOn,ModifiedBy")] GridHeader gridHeader)
+        public ActionResult Create([Bind(Include = "Id,FormType,Name,GridHeaderType")] GridHeader gridHeader)
         {
             if (ModelState.IsValid)
             {
+                gridHeader.CreatedBy = User.Identity.GetUserId();
                 db.GridHeaders.Add(gridHeader);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.FormType = new SelectList(db.FormsFields, "Id", "Source", gridHeader.FormType);
+            ViewBag.FormType = new SelectList(db.FormsFields, "Id", "FormName", gridHeader.FormType);
             return View(gridHeader);
         }
 
@@ -74,7 +76,7 @@ namespace ShivikaWebApp.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.FormType = new SelectList(db.FormsFields, "Id", "Source", gridHeader.FormType);
+            ViewBag.FormType = new SelectList(db.FormsFields, "Id", "FormName", gridHeader.FormType);
             return View(gridHeader);
         }
 
@@ -83,15 +85,17 @@ namespace ShivikaWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FormType,Name,GridHeaderType,CreatedOn,CreatedBy,ModifiedOn,ModifiedBy")] GridHeader gridHeader)
+        public ActionResult Edit([Bind(Include = "Id,FormType,Name,GridHeaderType")] GridHeader gridHeader)
         {
             if (ModelState.IsValid)
             {
+                gridHeader.ModifiedBy = User.Identity.GetUserId();
+                gridHeader.ModifiedOn = DateTime.Now;
                 db.Entry(gridHeader).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.FormType = new SelectList(db.FormsFields, "Id", "Source", gridHeader.FormType);
+            ViewBag.FormType = new SelectList(db.FormsFields, "Id", "FormName", gridHeader.FormType);
             return View(gridHeader);
         }
 

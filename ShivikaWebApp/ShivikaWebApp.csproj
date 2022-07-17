@@ -226,6 +226,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MeController.cs" />
     <Compile Include="Controllers\TypeofAggregatorsController.cs" />
+    <Compile Include="Enums\enums.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -412,6 +413,7 @@
     <Content Include="Views\GridSieveDesignations\Details.cshtml" />
     <Content Include="Views\GridSieveDesignations\Edit.cshtml" />
     <Content Include="Views\GridSieveDesignations\Index.cshtml" />
+    <Content Include="Views\Shared\_Forms.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

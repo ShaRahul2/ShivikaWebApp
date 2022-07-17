@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using ShivikaWebApp.Models;
 
 namespace ShivikaWebApp.Controllers
@@ -13,7 +14,7 @@ namespace ShivikaWebApp.Controllers
     [Authorize]
     public class FormsHeadersController : Controller
     {
-        private ShivikaWebAppEntities db = new ShivikaWebAppEntities();
+        private ShivikaWebAppEntities1 db = new ShivikaWebAppEntities1();
 
         // GET: FormsHeaders
         public ActionResult Index()
@@ -51,6 +52,7 @@ namespace ShivikaWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                formsHeader.CreatedBy = User.Identity.GetUserId();
                 db.FormsHeaders.Add(formsHeader);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -79,10 +81,12 @@ namespace ShivikaWebApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,ProjectName,AggregateDetails,CreatedOn,CreatedBy,ModifiedOn,ModifiedBy")] FormsHeader formsHeader)
+        public ActionResult Edit([Bind(Include = "Id,Title,ProjectName,AggregateDetails")] FormsHeader formsHeader)
         {
             if (ModelState.IsValid)
             {
+                formsHeader.ModifiedBy = User.Identity.GetUserId();
+                formsHeader.ModifiedOn = DateTime.Now;
                 db.Entry(formsHeader).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
